@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Design preview – Home</title>
+<style>
+:root{--bg:#EDEFF2;--surface:#fff;--sunk:#F5F6F8;--ink:#15181C;--muted:#5C646E;--line:#D7DBE0;--push:#C8322A;--pull:#2146C2;--legs:#D99A06;--home:#2C8A55;--on:#fff;
+--display:"Arial Narrow",Arial,sans-serif;--body:system-ui,-apple-system,sans-serif}
+@media(prefers-color-scheme:dark){:root{--bg:#101215;--surface:#191C20;--sunk:#14171A;--ink:#E8EBEE;--muted:#9AA2AC;--line:#2B3036;--push:#EE5A4F;--pull:#6488F2;--legs:#F0BC2C;--home:#4DB87B;--on:#0E1013}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--body)}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px calc(96px + env(safe-area-inset-bottom))}
+h1,h2,h3{font-family:var(--display);margin:0;text-transform:uppercase;letter-spacing:.01em;line-height:1.05}
+h1{font-size:30px}h2{font-size:22px}h3{font-size:18px;text-transform:none}
+.eyebrow{font:600 13px var(--display);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}.small{font-size:13px}
+header{padding:calc(14px + env(safe-area-inset-top)) 0 10px;display:flex;justify-content:space-between;align-items:center}
+.stack{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;align-items:center;gap:8px}.between{justify-content:space-between}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.btn{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:10px 14px;font:600 15px var(--body);min-height:44px;cursor:pointer}
+.btn.big{background:var(--ink);color:var(--bg);border:0;min-height:56px;font-size:18px;font-family:var(--display);text-transform:uppercase;letter-spacing:.03em;width:100%}
+.btn.on{background:var(--home);color:var(--on);border-color:transparent}
+.streak{font:700 34px var(--display);line-height:1}
+.dow,.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center}
+.dow{font:600 12px var(--display);letter-spacing:.08em;color:var(--muted)}
+.d{aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:600;border:2px solid var(--line);color:var(--muted)}
+.d.full{background:var(--home);border-color:var(--home);color:var(--on)}
+.d.half{border-color:var(--home);color:var(--ink);background:conic-gradient(var(--home) 0 50%,transparent 0)}
+.d.half span{background:var(--surface);border-radius:50%;width:70%;height:70%;display:grid;place-items:center}
+.d.today{outline:2px solid var(--ink);outline-offset:2px}
+.d.future{opacity:.4}
+.legend{display:flex;gap:14px;flex-wrap:wrap}.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid var(--home);vertical-align:-2px;margin-right:5px}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;appearance:none;border:0;background:none;color:var(--muted);padding:12px 0;font:600 13px var(--display);letter-spacing:.08em;text-transform:uppercase;min-height:56px}
+nav button.on{color:var(--ink);box-shadow:inset 0 3px var(--ink)}
+.seg{display:flex;gap:6px;overflow-x:auto}.seg button{white-space:nowrap}
+.sheet{position:fixed;inset:0;background:#0008;display:flex;align-items:flex-end;z-index:9}
+.sheet>div{background:var(--surface);width:100%;max-width:640px;margin:0 auto;border-radius:16px 16px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;border-left:6px solid var(--c)}
+[hidden]{display:none!important}
+.bar{height:8px;background:var(--sunk);border-radius:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--pull)}
+.note{border:1px dashed var(--line);border-radius:10px;padding:10px;color:var(--muted);font-size:13px}
+</style></head><body><div class="wrap">
+<div class="note" style="margin-top:12px">Design preview with fake data. Nothing here touches your real app or workouts. Tap around.</div>
+
+<section id="t-home" class="stack">
+<header><h1>Hybrid PPL</h1><div style="text-align:right"><div class="streak" id="streak">6</div><div class="eyebrow">day streak</div></div></header>
+<div class="card">
+  <div class="row between"><h2 id="month">October</h2><span class="muted small" id="count"></span></div>
+  <div class="dow"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+  <div class="cal" id="cal"></div>
+  <div class="legend small muted"><span><i style="background:var(--home)"></i>Full day</span><span><i style="background:conic-gradient(var(--home) 0 50%,transparent 0)"></i>Half</span><span><i></i>Nothing yet</span></div>
+</div>
+<button class="btn big" id="start">Start session</button>
+<div class="row" style="gap:10px"><button class="btn" style="flex:1" id="run">Log a run</button><button class="btn" style="flex:1" data-go="progress">See progress</button></div>
+<div class="card" style="border-left:5px solid var(--home)">
+  <div class="row between"><span class="eyebrow">Home routine</span><span class="muted small" id="hcount">0/8</span></div>
+  <div class="bar"><i id="hbar" style="width:0;background:var(--home)"></i></div>
+  <div class="muted small">Wall angels, chin tucks, couch stretch… about 15 min</div>
+  <button class="btn" id="hdone">Mark routine done</button>
+</div>
+<div class="card" style="border-left:5px solid var(--pull)">
+  <span class="eyebrow">Up next</span><h3>Pull day · handstand first</h3>
+  <div class="muted small">Pull-ups: pyramid day, peak 6</div>
+</div>
+</section>
+
+<section id="t-progress" class="stack" hidden>
+<header><h1>Progress</h1></header>
+<div class="seg"><button class="btn on">Pull-ups</button><button class="btn">Skills</button><button class="btn">Runs</button><button class="btn">Log</button></div>
+<div class="card"><span class="eyebrow">Pull-up program</span><h3>Week 4 · density day next</h3><div class="muted small">Target 7 reps × 10 sets</div><div class="bar"><i style="width:55%"></i></div></div>
+<div class="card"><span class="eyebrow">Skills</span><div class="row between"><span>Planche · Tuck</span><b>12 s</b></div><div class="row between"><span>Front lever · Tuck</span><b>9 s</b></div><div class="row between"><span>Handstand · Chest-to-wall</span><b>25 s</b></div></div>
+<div class="note">Inside Progress, the four buttons at the top switch between pull-ups, skills, runs and the full log. These are the same screens as today, just grouped.</div>
+</section>
+
+<section id="t-more" class="stack" hidden>
+<header><h1>More</h1></header>
+<div class="card"><button class="btn">Backup: export my data</button><button class="btn">Backup: import</button></div>
+<div class="card"><span class="eyebrow">Skill focus</span><div class="muted small">Priority skill and settings live here.</div></div>
+</section>
+</div>
+
+<nav><button class="on" data-go="home">Home</button><button data-go="progress">Progress</button><button data-go="more">More</button></nav>
+
+<div class="sheet" id="sheet" hidden><div>
+<h2>What did you do?</h2>
+<button class="btn opt" style="--c:var(--pull)"><b>Pull</b><span class="muted small">next in rotation</span></button>
+<button class="btn opt" style="--c:var(--legs)"><b>Legs</b></button>
+<button class="btn opt" style="--c:var(--push)"><b>Push</b></button>
+<button class="btn opt" style="--c:var(--home)"><b>Run</b></button>
+<button class="btn" id="close">Cancel</button>
+</div></div>
+
+<script>
+const T=new Date(2026,9,18), first=new Date(2026,9,1), days=31;
+const sess=[1,2,4,5,6,8,9,11,13,14,15,16,17], home=[1,2,3,4,5,6,8,9,10,11,12,13,14,15,16,17];
+let hdone=false, sdone=false;
+function draw(){
+  const c=document.getElementById('cal');c.innerHTML='';
+  const off=(first.getDay()+6)%7;for(let i=0;i<off;i++)c.append(document.createElement('div'));
+  let full=0;
+  for(let d=1;d<=days;d++){
+    const el=document.createElement('div');el.className='d';
+    const s=sess.includes(d)||(d==18&&sdone), h=home.includes(d)||(d==18&&hdone);
+    if(d>18){el.className+=' future'}
+    else if(s&&h){el.className+=' full';full++}
+    else if(s||h){el.className+=' half'}
+    if(d==18)el.className+=' today';
+    el.innerHTML=el.className.includes('half')?'<span>'+d+'</span>':d;c.append(el);
+  }
+  document.getElementById('count').textContent=full+' full days';
+  document.getElementById('hcount').textContent=(hdone?8:0)+'/8';
+  document.getElementById('hbar').style.width=hdone?'100%':'0';
+  document.getElementById('hdone').textContent=hdone?'Done ✓ (tap to undo)':'Mark routine done';
+  document.getElementById('hdone').className='btn'+(hdone?' on':'');
+  document.getElementById('streak').textContent=(sdone&&hdone)?7:6;
+}
+document.getElementById('hdone').onclick=()=>{hdone=!hdone;draw()};
+document.getElementById('start').onclick=()=>document.getElementById('sheet').hidden=false;
+document.getElementById('run').onclick=()=>document.getElementById('sheet').hidden=false;
+document.getElementById('close').onclick=()=>document.getElementById('sheet').hidden=true;
+document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{sdone=true;document.getElementById('sheet').hidden=true;draw()});
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{
+  const k=b.dataset.go;
+  ['home','progress','more'].forEach(x=>document.getElementById('t-'+x).hidden=x!==k);
+  document.querySelectorAll('nav button').forEach(n=>n.classList.toggle('on',n.dataset.go===k));scrollTo(0,0)});
+draw();
+</script></body></html>
